@@ -7,9 +7,25 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<security:http pattern="/**/*.js" security="none" />
+	<security:http pattern="/**/*.css" security="none" />
+	<security:http pattern="/images/**" security="none" />
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		<security:intercept-url pattern="/index.do" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/emp/login" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
+		<security:intercept-url pattern="/emp/logout.do" access="ROLE_ANONYMOUS,ROLE_USER,ROLE_ADMIN"/>
 		<security:intercept-url pattern="/**" access="ROLE_USER"/>
+		<security:form-login
+			username-parameter="id"
+			password-parameter="pass"
+			login-page="/emp/login"
+			default-target-url="/index.do"
+			authentication-failure-url="/emp/login?failure=true"
+		
+		/>
+		
+		
 	</security:http>
 	
 	<security:authentication-manager>
