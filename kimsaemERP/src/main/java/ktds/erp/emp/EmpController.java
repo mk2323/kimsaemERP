@@ -64,7 +64,7 @@ public class EmpController {
 		}
 		return result;
 	}
-	/*@RequestMapping(value="/emp/login.do",method=RequestMethod.POST)
+/*	@RequestMapping(value="/emp/login.do",method=RequestMethod.POST)
 	public ModelAndView login(MemberDTO loginUser,
 				String member_id_save,HttpServletRequest req) 
 											throws Exception {

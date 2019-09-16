@@ -3,6 +3,7 @@ package ktds.erp.emp;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,17 +14,27 @@ public class EmpServiceImpl implements EmpService {
 	EmpDAO dao;
 	@Autowired
 	FileUploadLogic upload;
+	@Autowired
+	ShaPasswordEncoder shaPasswordEncoder;
+								
+	@Override
+	public int insert(MemberDTO user,MultipartFile file,String realpath,String filename) {
+		
+		String securityPass =
+				shaPasswordEncoder.encodePassword(user.getPass(), user.getId());
+		System.out.println(securityPass);
+		user.setPass(securityPass);
+		upload.upload(file, realpath, filename);
+		return dao.insert(user);
+	}
+	
 	@Override
 	public ArrayList<MemberDTO> getTreeEmpList(String deptno) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public int insert(MemberDTO user,MultipartFile file,String realpath,String filename) {
-		upload.upload(file, realpath, filename);
-		return dao.insert(user);
-	}
+	
 
 	@Override
 	public boolean idCheck(String id) {
