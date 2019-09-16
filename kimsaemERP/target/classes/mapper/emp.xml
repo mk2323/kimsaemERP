@@ -17,6 +17,17 @@
 		#{gender},null,null,null,sysdate,null,#{deptno},null,#{zipcode},#{addr},#{detailaddr},
 		#{phonehome},#{phoneco},#{phonecell},#{email},#{profile_photo})
 	</insert>
+	
+	<select id="authoritylist" parameterType="String" resultType="authority" >
+		select m.id, a.authorityname
+		from member m, dept d, job g, AUTHORITY a, GROUPAUTHORITY ga
+		where m.deptno = d.deptno
+			and d.job_category = g.job_id
+			and g.job_id = ga.groupid
+			and a.authorityid = ga.authorityid
+			and m.id=#{id}	
+	</select>
+	
 </mapper>
 
 

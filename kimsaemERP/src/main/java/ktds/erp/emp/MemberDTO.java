@@ -27,6 +27,7 @@ public class MemberDTO {
 	private String email;
 	private String profile_photo;
 	private String deptname;
+	private String authority;
 	MultipartFile userImage;
 	public MemberDTO() {
 
@@ -119,6 +120,14 @@ public class MemberDTO {
 	}
 
 	
+
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
 
 	public MultipartFile getUserImage() {
 		return userImage;
