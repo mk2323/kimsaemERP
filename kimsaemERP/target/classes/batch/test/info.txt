@@ -1,0 +1,30 @@
+<<Quartz를 이용한 job스케쥴링>>
+1. Job을 구현하는 클래스
+	- 하위클래스로 작성
+	  xml에 
+	  org.springframework.scheduling.quartz.JobDetailFactoryBean
+	  등록하며 속성으로 실제 내가 작성한 빈을 등록한다.
+	  
+	- POJO
+2. Job을 실행하도록 설정하는 트리거
+	- job을 실행할 주기를 등록
+	1) org.springframework.scheduling.quartz.CronTriggerFactoryBean
+	 리눅스에서 제공하는 스케쥴러의 사용방법과 동일한 방법을 지원하는 트리거
+	 [정의해야 하는 속성]
+	 jobDetail : 실행할 job
+	 cronExpression : 실행주기에 대한 설정 정보를 표현식으로 등록
+	 초 분 시 일 월
+	 분, 초 => 0~59
+	 시간 => 0 ~ 23
+	 일 => 1 ~ 31
+	 달 => 1 ~ 12
+	 ex)1 * * * * : 매 분 1초 마다 job을 실행하라는 의미
+	 	* * * * *? : 매 초 마다 실행
+	 	5 * * * *? : 매분의 5초마다
+	 	0/5 * * * *? : 5초마다 한 번 씩 실행하기
+	 	0 0 1 * *? : 매일 오전1시 0분 0초에 실행하기
+3. Job을 실행할 수 있는 스케쥴러를 등록
+	- 스케쥴러에게 등록
+	org.springframework.scheduling.quartz.SchedulerFactoryBean
+	[속성]
+	triggers속성에 트리거를 <list>의 값으로 등록한다.

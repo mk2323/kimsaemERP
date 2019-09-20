@@ -1,13 +1,21 @@
 package ktds.erp.emp;
 import java.sql.Date;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 public class MemberDTO {
+	@NotEmpty(message="사번은 반드시 입력해야 합니다.")
 	private String id;
+	@Pattern(regexp="((?=.*[A-z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,})")
 	private String pass;
+	@NotEmpty(message="사번은 반드시 입력")
 	private String name;
+	@NotEmpty(message="사번은 반드시 입력")
 	private String ssn;
+	@NotEmpty(message="사번은 반드시 입력")
 	private String birthday;
 	private String marry;
 	private String gender;

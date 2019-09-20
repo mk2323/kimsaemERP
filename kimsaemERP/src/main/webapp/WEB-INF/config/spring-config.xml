@@ -36,7 +36,7 @@
 
 	<!-- ======================어노테이션============================== -->
 	<context:component-scan base-package="ktds" />
-
+	<context:component-scan base-package="batch"/>
 
 
 
@@ -129,6 +129,8 @@
 	
 	</aop:config>
 	
+	<!-- validator 등록 -->
+	<beans:bean id="localValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 </beans:beans>
 
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ktds.erp.emp.login">
+	<select id="passchangelist" resultType="passhistory">
+		<!-- 현재 시점으로 패스워드 변경 날짜가 한달이 지난 사원들의 목록을 조회하기  -->
+	
+	</select>
+	<update id="pass_state_update" parameterType="passhistory">
+		<!-- 조회한 사원 목록의 한 사원에 대해서 passchangestate값을 Y로 변경하기 반복작업은 daoImpl에서 처리 -->
+	</update>
+	<select id="pass_state_select" parameterType="String">
+		
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

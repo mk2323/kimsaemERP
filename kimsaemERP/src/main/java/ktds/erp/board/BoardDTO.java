@@ -2,14 +2,23 @@ package ktds.erp.board;
 
 import java.sql.Date;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
+//간단한 데이터 검증은 dto에 직접 표현하고
+//그렇지 않은 경우 컨트롤러에서 조절하도록
+//검증을 위해 제공하는 annotation을 적용하면 dto객체가 만들어질때 값을 검증한다.
 public class BoardDTO {
-	String board_no;
+	String board_no;	
+	@Pattern(regexp="[A-z0-9]")
 	String id;
+	@NotEmpty(message="제목은 반드시 입력 ")
 	String title;
+	@NotEmpty(message="내용은 반드시 입력 ")
 	String content;
 	Date write_date;
+	@NotEmpty
 	String category;
 	MultipartFile[] files;
 	public BoardDTO(){

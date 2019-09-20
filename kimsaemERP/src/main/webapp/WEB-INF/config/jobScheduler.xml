@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 1. 실행할 job을 등록 -->
+	<bean id="myjob1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="batch.test.MyBasicJob" />
+	</bean>	
+	
+	<bean id="myjob2" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="myservicejob"/>
+		<property name="targetMethod" value="test"/>
+	
+	</bean>
+	
+	<!-- 2. 반복작업의 설정을 상세하게 정의 trigger -->
+	<bean id="myjobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="myjob1"/>
+		<property name="cronExpression" value="* * 15 * * ?"/>
+	</bean>
+	<bean id="myjobTrigger2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="myjob2"/>
+		<property name="cronExpression" value="* * 10 * * ?"/>
+	</bean>
+
+	
+	<!-- 3. 스케쥴러에 등록하기 -->
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="myjobTrigger"/>
+			<ref bean="myjobTrigger2"/>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

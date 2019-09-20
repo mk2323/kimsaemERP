@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="se" uri="http://www.springframework.org/security/tags" %>
+<%-- 입력값에 대한 검증 결과를 view에 출력한다.
+	검증결과를 view가 forward될때 가지고 온다. 그 값을 사용하기 위해서는 스프링태그를 이용해서 처 
+	1.<form>태그가 아니라 스프링에서 제공되는
+	2.
+	
+	
+	 --%>	
+	
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,14 +35,16 @@
 		<div class="col-lg-12">
 			<div class="form-panel">
 
-				<form class="form-horizontal style-form"
-					action="/kimsaemERP/board/insert.do" method="post" enctype="multipart/form-data">
+				<form:form commandName="boardDTO" class="form-horizontal style-form"
+					action="/kimsaemERP/board/user/insert.do" method="post" enctype="multipart/form-data">
 					<div class="form-group" style="border: 1px solid #eff2f7;">
 
 						<label class="col-sm-2 col-sm-2 control-label">작성자</label>
 						<div class="col-sm-10">
-							<input type="hidden" name="id" value="${loginUser.id}">
-							<p class="form-control-static">${loginUser.name}</p>
+							<input type="hidden" name="id" value="<se:authentication property="principal.id"/>">
+							<p class="form-control-static">
+								<se:authentication property="principal.name"/>
+							</p>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">게시글 유형</label>
@@ -48,7 +61,7 @@
 							<label class="col-sm-2 col-sm-2 control-label">제목</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="title"> <span
-									class="help-block">게시글 유형에 맞는 내용으로 작성 부탁드립니다. </span>
+									class="help-block" style="color: red; font-weight: bold;"><form:errors path="title"/> </span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -57,7 +70,8 @@
 								<textarea id="content"
 									style="width: 100%; border: 1; overflow: visible; text-overflow: ellipsis;"
 									rows=15 name="content">글작성</textarea>
-
+<span
+									class="help-block" style="color: red; font-weight: bold;"><form:errors path="content"/> </span>
 							</div>
 						</div>
 						<div class="form-group">
@@ -118,7 +132,7 @@
 
 						</div>
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</div>

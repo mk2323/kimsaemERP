@@ -26,12 +26,10 @@
 		<security:intercept-url pattern="/**/user/**"
 					access="hasAnyRole('user','admin')"/>			
 		<security:intercept-url pattern="/board/**"  
-					access="permitAll"/>
-					
-					
+					access="permitAll"/>					
 					
 		<security:intercept-url pattern="/emp/**" 
-						access="hasRole('admin')"/>
+						access="hasAnyRole('insaadmin','insauser')"/>
 									
 		<security:intercept-url pattern="/**" 
 							access="hasRole('user')" />

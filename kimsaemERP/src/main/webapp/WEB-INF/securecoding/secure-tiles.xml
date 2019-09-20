@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+<!-- security템플릿 -->
+	<definition name="securityTemplate" template="/WEB-INF/layout/adminlayout.jsp">
+		<put-attribute name="top" value="/WEB-INF/include/top.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/include/adminleft.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/include/admincontent.jsp" />
+
+	</definition>
+	
+	<definition name="main/secure" extends="securityTemplate">
+		<put-attribute name="menu" value="/WEB-INF/include/secureleft.jsp" />
+		<put-attribute name="content" 
+		                 value="/WEB-INF/securecoding/secureindex.jsp"/>
+	</definition>
+  
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

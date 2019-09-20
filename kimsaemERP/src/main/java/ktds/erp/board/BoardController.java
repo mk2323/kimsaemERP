@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,8 +24,13 @@ public class BoardController {
 	FileUploadLogic uploadservice;
 
 	//게시글 db에 insert
+	//1. 스프링 mvc내부에서 갑을 검증하는 경우에는 반드시 @valid를 검증할 dto에선언
+	//   @valid를 이용해서 값을 검증하는 경우 Error가 발생되었는지 정상처리되었는지 
+	//	결과를담을 수 있는 Errors객체를 같이 선언해야 한다.
+	//2. 검증한 객체를 Command 객체라 하며 이 객체를 view로 전달해 주는 작업을
+	//   해야 하므로 반드시 ModelAndView를 리턴하도록
 	@RequestMapping(value="/board/user/insert.do" ,method=RequestMethod.POST)
-	public String write(BoardDTO board,HttpServletRequest req) throws Exception{
+	public ModelAndView write(@Valid BoardDTO boardDTO,Errors error,HttpServletRequest req) throws Exception{
 		//board dto에는 사용자가 게시글로 등록하는 일반적인내용과
 		//업로드하는 파일의 정보
 		//1. dto에서 업로드되는 파일의 모든 정보를 추출
@@ -31,7 +38,17 @@ public class BoardController {
 		//  => FileUploadLogic이 업로드되는 파일갯수호출		//  		
 		//System.out.println(board);
 		//System.out.println(board.getFiles().length);
-		MultipartFile[] files = board.getFiles();
+		ModelAndView mav=new ModelAndView();
+		
+		if(error.hasErrors()) {
+			mav.setViewName("board/write");
+			return mav;
+			//if문 앞에서 리턴하는 이유는 에러가 발생되면
+			//더 진행시키지 않고 입력폼으로 되돌아가기 위해서
+		}
+		
+		
+		MultipartFile[] files = boardDTO.getFiles();
 		//저장위치 - 서버가 인식하는 위치
 		String path = WebUtils.getRealPath(req.getSession().getServletContext(), "/WEB-INF/upload");
 		ArrayList<String> filelist = new ArrayList<String>();
@@ -48,8 +65,9 @@ public class BoardController {
 			}			
 		}	
 		//서비스의 디비관련메소드 호출
-		service.insert(board, filelist);
-		return "redirect:/board/list.do?category=all";
+		service.insert(boardDTO, filelist);
+		mav.setViewName("redirect:/board/list.do?category=all");
+		return mav;//성공했을때 - 입력값 검증 성공
 	}	
 	
 	@RequestMapping(value="/board/list.do")

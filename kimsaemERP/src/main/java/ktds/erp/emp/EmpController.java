@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,20 +37,28 @@ public class EmpController {
 	}
 
 	@RequestMapping("/emp/insert.do")
-	public String insert(MemberDTO emp, HttpServletRequest req) throws Exception {
-		MultipartFile file = emp.getUserImage();
+	public ModelAndView insert(@Valid MemberDTO memberDTO,Errors error , HttpServletRequest req) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		if(error.hasErrors()) {
+			mav.setViewName("redirect:/emp/insertView.do");
+			return mav;
+		}
+		
+		
+		MultipartFile file = memberDTO.getUserImage();
 		// 2. 저장될 위치
 		String path = WebUtils.getRealPath(req.getSession().getServletContext(), "/WEB-INF/upload");
 		String fileName = file.getOriginalFilename();
-		System.out.println("컨틀롤러=>" + emp.getSsn().substring(6, 7));
-		emp.setGender(emp.getSsn().substring(6, 7));
-		emp.setProfile_photo(fileName);
-		if (emp.getMarry() == null) {// 체크박스를 선택하지 않은 미혼이라는 의미
-			emp.setMarry("0");
+		System.out.println("컨틀롤러=>" + memberDTO.getSsn().substring(6, 7));
+		memberDTO.setGender(memberDTO.getSsn().substring(6, 7));
+		memberDTO.setProfile_photo(fileName);
+		if (memberDTO.getMarry() == null) {// 체크박스를 선택하지 않은 미혼이라는 의미
+			memberDTO.setMarry("0");
 		}
-		System.out.println("emp==>" + emp);
-		service.insert(emp, file, path, fileName);
-		return "redirect:/index.do";
+		System.out.println("emp==>" + memberDTO);
+		service.insert(memberDTO, file, path, fileName);
+		mav.setViewName("redirect:/index.do");
+		return mav;
 	}
 	@RequestMapping(value = "/emp/idcheck.do", 
 			method = RequestMethod.GET, 
