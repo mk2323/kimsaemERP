@@ -60,8 +60,8 @@
 						<div class="form-group">
 							<label class="col-sm-2 col-sm-2 control-label">제목</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" name="title"> <span
-									class="help-block" style="color: red; font-weight: bold;"><form:errors path="title"/> </span>
+								<input type="text" class="form-control" name="title"> 
+								<span class="help-block" style="color: red; font-weight: bold;"><form:errors path="title"/> </span>
 							</div>
 						</div>
 						<div class="form-group">
